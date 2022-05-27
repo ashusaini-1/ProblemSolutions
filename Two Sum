@@ -1,0 +1,35 @@
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int[]result=new int[2];
+  
+        
+       int part2;
+        HashMap<Integer,Integer> sumMap=new HashMap<>();
+        
+        for(int i=0;i<nums.length;i++){
+            part2=target-nums[i];
+            
+            if(sumMap.containsKey(part2)){
+                
+                result[0]=i;
+                result[1]=sumMap.get(part2);
+                return result;
+                
+            }
+            
+            else{
+                sumMap.put(nums[i],i);
+                
+                
+            }
+            
+            
+            
+        }
+        
+        return result;
+        
+    }
+}
+
+
