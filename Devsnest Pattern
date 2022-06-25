@@ -1,0 +1,67 @@
+Input: 
+    9
+    27
+Output:
+    ------------.|.------------
+    ---------.|..|..|.---------
+    ------.|..|..|..|..|.------
+    ---.|..|..|..|..|..|..|.---
+    ---------DEVSNEST!---------
+    ---.|..|..|..|..|..|..|.---
+    ------.|..|..|..|..|.------
+    ---------.|..|..|.---------
+    ------------.|.------------
+    
+    Solution:-
+    
+    static String[] solve(int M, int N){
+//CODE HERE 
+String path1=".|.";
+int k=(N-3)/2;
+int l=1;
+String ans[]=new String[M];
+int dev=(N-9)/2;
+
+
+for(int i=0;i<M/2;i++){
+String str="";
+int temp=k;
+int temp1=l;
+
+for(int b=temp;b>0;b--){
+    str+='-';
+    
+}
+for(int b=temp1;b>0;b--){
+    str+=path1;
+}
+temp=k;
+
+for(int b=temp;b>0;b--){
+    str+='-';
+}
+ans[i]=str;
+k=k-3;
+l=l+2;
+}
+
+int temp=dev;
+String str="";
+for(int b=temp;b>0;b--){
+str+='-';
+
+}
+str+="DEVSNEST!";
+for(int b=temp;b>0;b--){
+str+='-';
+
+}
+
+ans[M/2]=str;
+int m=(M/2)-1;
+
+for(int i=(M/2)+1;i<M;i++){
+ans[i]=ans[m--];
+}
+return ans;
+}
