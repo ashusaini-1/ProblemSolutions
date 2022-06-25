@@ -1,0 +1,23 @@
+Input:
+    5
+Output:
+    1
+    121
+    12321
+    1234321
+    123454321
+Explanation:
+    The size of staircase is 5. So you have to generate string of integers in such a way that it is palindromic. 
+    
+    
+ Solution:-
+ 
+ static String[] solve(int n){
+//CODE HERE
+String ans[]=new String[n];
+ans[0]="1";
+for(int i=1;i<n;i++){
+ans[i]=ans[i-1].substring(0,i) +(i+1)+ new StringBuilder(ans[i-1].substring(0,i)).reverse().toString();
+}
+return ans;
+}
