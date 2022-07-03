@@ -1,0 +1,94 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+
+
+
+
+class  CliqProb {
+
+    int V=5;
+    public boolean isBipartiteUtil(int G[][],int src,int colorArr[]) {
+
+        colorArr[src] = 1;
+
+        Deque<Integer> q = new ArrayDeque<>();
+        q.add(src);
+
+        while (!q.isEmpty()) {
+            int u = q.peek();
+            q.pop();
+// Find all non-colored adjacent vertices
+            for (int v = 0; v < V; v++) {
+
+                // An edge from u to v exists and destination
+                // v is not colored
+                if (G[u][v] == -1 && colorArr[v] == -1) {
+
+                    // Assign alternate color to this adjacent
+                    // v of u
+                    colorArr[v] = 1 - colorArr[u];
+                    q.push(v);
+                }
+
+                // An edge from u to v exists and destination
+                // v is colored with same color as u
+
+                else if (G[u][v] == colorArr[u] && colorArr[v] == colorArr[u])
+                    return false;
+            }
+
+
+        }
+        return true;
+    }
+
+    public boolean isBipartite(int G[][]){
+        int colorArr[]=new int[V];
+        for(int i=0;i<V;i++){
+            colorArr[i]=-1;
+        }
+
+        for(int i=0;i<V;i++){
+            if(colorArr[i]==-1){
+                if(isBipartiteUtil(G,i,colorArr)==false)
+                    return false;
+            }
+        }
+         return true;
+    }
+    boolean canBeDividedinTwoCliques(int G[][]){
+        // Find complement of G[][]
+        // All values are complemented except
+        // diagonal ones
+        int GC[][]=new int[V][V];
+        for (int i=0; i<V; i++)
+            for (int j=0; j<V; j++)
+                GC[i][j] = (i != j)?  -GC[i][j] : 0;
+
+        // Return true if complement is Bipartite
+        // else false.
+        return  isBipartite(GC);
+
+
+    }
+
+
+}
+public class TheCliqProb {
+
+    public static void main(String[] args){
+        CliqProb obj=new CliqProb();
+        int G[][] = {{0, 1, 1, 1, 0},
+                {1, 0, 1, 0, 0},
+                {1, 1, 0, 0, 0},
+                {0, 1, 0, 0, 1},
+                {0, 0, 0, 1, 0}
+        };
+
+        if(obj.canBeDividedinTwoCliques(G))
+            System.out.println("Yes");
+        else
+            System.out.println("No");
+    }
+}
