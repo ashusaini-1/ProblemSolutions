@@ -1,0 +1,71 @@
+static int[] solve(int n, int[] nums){
+//CODE HERE
+// Approach is to find first decresing squence from right to left
+
+// then swap it with next higher number and then reverse the array
+
+// Step 1: first decresing squence from right to left
+
+int firstDecSeqIndx =-1;
+
+for(int i=nums.length-1;i>0;i--){
+// finding decresing squence from right to left
+
+    if(nums[i-1]<nums[i]){
+
+        firstDecSeqIndx = i-1;
+
+        break;
+
+    }
+
+}
+// finding the next higher value from firstDecreasingSequenceIndex to the end of array
+
+if(firstDecSeqIndx > -1){
+
+    for(int i = nums.length - 1;i>firstDecSeqIndx; i--){
+
+        if(nums[firstDecSeqIndx] < nums[i]){
+// swap elements
+
+            int temp = nums[firstDecSeqIndx];
+
+            nums[firstDecSeqIndx] = nums[i];
+
+            nums[i] = temp;
+
+            break;
+
+        }
+
+    }
+
+}   
+
+int right = nums.length - 1;
+
+int left = firstDecSeqIndx + 1;
+// swapping function called to swap elements
+
+if(firstDecSeqIndx == -1)
+
+    left = 0;
+// Now we need to reverse the array from the firstDecreasingSequenceIndex to the last
+
+while(left < right){
+
+    int temp = nums[left];
+
+    nums[left] = nums[right];
+
+    nums[right] = temp;
+
+    left++;
+
+    right--;
+
+}
+
+return nums;
+}
