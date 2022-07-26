@@ -1,0 +1,40 @@
+import java.util.HashMap;
+
+public class CommonEleminRowMatrix {
+    static int M=4;
+    static int N=5;
+
+    static void printCommonElement(int mat[][]){
+        HashMap<Integer,Integer>map=new HashMap<>();
+
+        for(int j=0;j<N;j++){
+            map.put(mat[0][j],1);
+        }
+
+        for(int i=1;i<M;i++){
+            for(int j=0;j<N;j++){
+                if(map.get(mat[i][j])!=null && map.get(mat[i][j])==i){
+                    map.put(mat[i][j],i+1);
+                }
+                if(i==M-1){
+                    System.out.println(mat[i][j] + " ");
+                }
+
+            }
+        }
+
+    }
+
+    public static void main(String args[]){
+        int mat[][] =
+                {
+                        {1, 2, 1, 4, 8},
+                        {3, 7, 8, 5, 1},
+                        {8, 7, 7, 3, 1},
+                        {8, 1, 2, 7, 9},
+                };
+
+        printCommonElement(mat);
+
+    }
+}
