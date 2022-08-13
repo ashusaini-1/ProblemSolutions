@@ -1,0 +1,164 @@
+import java.util.Arrays;
+import java.util.ArrayList;
+
+class MNode{
+
+    int data;
+    MNode left;
+    MNode right;
+
+    MNode(int data){
+        this.data=data;
+        left=null;
+        right=null;
+
+    }
+
+}
+
+class MBinarySearchTree{
+
+    MNode root;
+
+    MBinarySearchTree(){
+        root=null;
+    }
+
+    // Inorder traversal of the tree
+    void inorder()
+    {
+        inorderUtil(this.root);
+    }
+
+    // Utility function for inorder traversal of the tree
+    void inorderUtil(MNode node)
+    {
+        if(node==null)
+            return;
+
+        inorderUtil(node.left);
+        System.out.print(node.data + " ");
+        inorderUtil(node.right);
+    }
+
+    public ArrayList<Integer>storeInorderUtil(MNode node,ArrayList<Integer>list){
+        if(node==null)
+            return list;
+        storeInorderUtil(node.left,list);
+        list.add(node.data);
+        storeInorderUtil(node.right,list);
+        return list;
+    }
+
+    ArrayList<Integer>storeInorder(MNode node){
+        ArrayList<Integer>list1=new ArrayList<>();
+        ArrayList<Integer>list2=storeInorderUtil(node,list1);
+        return list2;
+    }
+
+    ArrayList<Integer>merge(ArrayList<Integer>list1,ArrayList<Integer>list2,int m,int n){
+
+        ArrayList<Integer>list3=new ArrayList<>();
+        int i=0;int j=0;
+
+        while (i<m && j<n){
+            if(list1.get(i)<list2.get(j)){
+                list3.add(list1.get(i));
+                i++;
+            }
+            else
+            {
+                list3.add(list2.get(j));
+                j++;
+            }
+        }
+        while(i<m)
+        {
+            list3.add(list1.get(i));
+            i++;
+        }
+
+        // Adds the remaining elements of list2 into list3
+        while(j<n)
+        {
+            list3.add(list2.get(j));
+            j++;
+        }
+        return list3;
+
+    }
+    MNode ALtoBST(ArrayList<Integer>list, int start, int end)
+    {
+        // Base case
+        if(start > end)
+            return null;
+
+        // Get the middle element and make it root
+        int mid = (start+end)/2;
+        MNode node = new MNode(list.get(mid));
+
+        /* Recursively construct the left subtree and make it
+        left child of root */
+        node.left = ALtoBST(list, start, mid-1);
+
+        /* Recursively construct the right subtree and make it
+        right child of root */
+        node.right = ALtoBST(list, mid+1, end);
+
+        return node;
+    }
+
+    MNode mergeTrees(MNode node1, MNode node2)
+    {
+        //Stores Inorder of tree1 to list1
+        ArrayList<Integer>list1 = storeInorder(node1);
+
+        //Stores Inorder of tree2 to list2
+        ArrayList<Integer>list2 = storeInorder(node2);
+
+        // Merges both list1 and list2 into list3
+        ArrayList<Integer>list3 = merge(list1, list2, list1.size(), list2.size());
+
+        //Eventually converts the merged list into resultant BST
+        MNode node = ALtoBST(list3, 0, list3.size()-1);
+        return node;
+    }
+
+
+}
+
+
+public class MergeTwoBst {
+
+    public static void main(String args[]){
+
+        MBinarySearchTree tree1 = new MBinarySearchTree();
+        tree1.root = new MNode(100);
+        tree1.root.left = new MNode(50);
+        tree1.root.right = new MNode(300);
+        tree1.root.left.left = new MNode(20);
+        tree1.root.left.right = new MNode(70);
+         
+        /* Creating following tree as second balanced BST
+                80
+                / \
+              40 120
+        */
+
+        MBinarySearchTree tree2 = new MBinarySearchTree();
+        tree2.root = new MNode(80);
+        tree2.root.left = new MNode(40);
+        tree2.root.right = new MNode(120);
+
+
+        MBinarySearchTree tree = new MBinarySearchTree();
+        tree.root = tree.mergeTrees(tree1.root, tree2.root);
+        System.out.println("The Inorder traversal of the merged BST is: ");
+        tree.inorder();
+        
+        
+        
+
+    }
+
+}
